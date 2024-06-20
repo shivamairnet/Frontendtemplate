@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+    .bg-customPurple {
+      background-color: #323268;
+    }
+    .text-customPurple {
+      color: #323268;
+    }
+
+    .bg-customOrange {
+      background-color: #e2472b;
+    }
+    .text-customOrange {
+      color: #e2472b;
+    }
+
+    .placeholder-customPurple ::placeholder {
+        color:#323268;
+    }
+
+    .shadow-custom {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+    .icon {
+            width:15px;
+            height: 15px;
+            margin-right: 5px;
+        }
+</style>
+</head>
+<body class="h-full">
+    <div>
+        <div class="mb-4">
+            <nav>
+                <a href="#home" class="text-customPurple">Home / Itinerary</a>
+            </nav>
+        </div>
+        
+        <div class="mb-4 text-center font-bold">
+            <h2 class="text-customOrange underline">Make Your Own Holiday!</h2>
+        </div>
+    </div>
+
+
+<div class="flex flex-nowrap space-x-4 bg-gray-200 p-4">
+    <div class="flex-1 max-w-1/4 flex items-stretch">
+        <div class="flex items-center justify-between bg-customPurple p-1 rounded-2xl w-full">
+            <label for="input5" class="text-white mr-2 text-sm underline">Departure Date></label>
+            <input type="date" id="input5" name="input5" class="bg-white text-sm text-black rounded-2xl px-2 py-1 w-24">
+        </div>
+    </div>
+    
+    <div class="flex-1 max-w-1/4 flex items-stretch">
+        <div class="flex items-center justify-between bg-customPurple p-1 rounded-2xl w-full">
+            <label for="input1" class="text-white mr-2 text-sm underline">Departure City></label>
+            
+            <!-- dynamic list of cities to be fetched making api call || list to be added -->
+            <!-- <select id="input1" name="input1" class="bg-white text-sm text-black rounded-2xl px-2 py-1 w-40"> -->
+                <select id="city-dropdown" name="city-dropdown" class="bg-white text-sm text-black rounded-2xl px-2 py-1 w-40">
+
+                <option value="">Select City</option>
+            </select>
+       </div>
+    </div>
+    
+    <div class="flex-1 max-w-1/4 flex items-stretch">
+        <div class="flex items-center justify-between bg-customPurple p-2 rounded-2xl w-full">
+            <label for="input2" class="text-white mr-2 text-sm underline">Travellers></label>
+            <select id="input2" name="input2" class="bg-white text-sm text-black rounded-2xl px-2 py-1 w-40">
+                <option value="0">Select Traveller</option>
+                <option value="1">Adult</option>
+                <option value="2">Children</option>
+                <option value="3">Infant</option>
+            </select>
+        </div>
+    </div>
+    
+    <!-- opening modal for the advance traveller options -->
+    <div class="flex-1 max-w-1/4 flex items-stretch">
+        <div class="flex items-center justify-between w-full">
+            <button id ="advanced-options-button" onclick="openModal()" class="px-4 py-2 bg-customOrange text-white font-bold underline rounded-2xl border-customPurple border-2">Advanced Traveller Options</button>
+            
+        </div>
+    </div>
+</div>
+    <div class="citiesdata p-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+        <div class="flex justify-center space-x-4">
+            <h3 class="text-customPurple underline text-left font-bold text-xl">Your Cities</h3>
+
+            <!-- First City -->
+          <div class="flex flex-col items-center">
+            <div class="flex items-center space-x-4">
+              <img src="img/delhi.jpeg" alt="Image 1" class="w-20 h-20 rounded-full">
+            </div>
+            <div class="flex flex-col">
+                <p class="mt-2 underline text-center text-customPurple font-bold">24 June-30 June</p>
+          </div>
+        </div>
+        <div id ="Arr/DesCitiesAdded" class="flex flex-col">
+        <h2 id="cityName" class="underline to-black font-bold">Delhi</h2>
+            <p id="cityDescription" class="text-customPurple">Capital Of India</p>
+        </div>
+
+          <!-- Second City -->
+         
+          <div class="flex flex-col items-center">
+            <div class="flex items-center space-x-4">
+              <img src="img/delhi.jpeg" alt="Image 1" class="w-20 h-20 rounded-full">
+            </div>
+            <div class="flex flex-col">
+                <p class="mt-2 underline text-center text-customPurple font-bold">24 June-30 June</p>
+          </div>
+        </div>
+        <div id ="DynamicCities" class="flex flex-col">
+        <h2 id="DynamicCitiesName" class="underline to-black font-bold">Delhi</h2>
+            <p id="DynamicCitiesDescription" class="text-customPurple">Capital Of India</p>
+        </div>
+    
+          <!-- Third City -->
+          
+        <div class="flex flex-col items-center">
+            <div class="flex items-center space-x-4">
+              <img src="img/delhi.jpeg" alt="Image 1" class="w-20 h-20 rounded-full">
+            </div>
+            <div class="flex flex-col">
+                <p class="mt-2 underline text-center text-customPurple font-bold">24 June-30 June</p>
+          </div>
+        </div>
+        <div id ="Arr/DesCitiesAdded" class="flex flex-col">
+        <h2  id="cityName" class="underline to-black font-bold">Delhi,India</h2>
+            <p id="cityDescription"class="text-customPurple">Capital Of India</p>
+        </div>
+    </div>
+      
+    <hr class="border-b-1 mt-4 border-gray-300 w-full">
+    
+    <div class="p-8">
+        <h1 class="text-customOrange shadow-custom underline font-bold text-center text-2xl" >Choose Your Clients Route Of Travel</h1>
+    </div>
+</div>
+</div>
+    <div class="maindiv">
+        <div >
+            <div class="flex flex-nowrap">
+                <div class="w-1/2">
+                    <div class="flex flex-nowrap space-x-4  p-4">
+                    <div class="flex-1 flex items-stretch h-10">
+                        <div class="flex items-center justify-between bg-customPurple p-1 rounded-2xl w-60">
+                            <label for="input5" class="text-white mr-2 text-md underline font-bold">Route Type > </label>
+                            <input type="text" id="input5" name="input5" class="bg-white text-black rounded-2xl px-2 py-1 w-24">
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1 flex items-stretch h-10">
+                        <div class="flex items-center justify-between bg-customPurple p-1 rounded-2xl w-60">
+                            <label for="input1" class="text-white mr-2 underline text-md font-bold">Sort By > </label>
+                            <input type="text" id="input1" name="input1" class="bg-white text-black rounded-2xl px-2 py-1 w-24">
+                        </div>
+                    </div>
+                </div>
+                    <div class="routecards">
+                        <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+                          <div class="space-y-6">
+                            <!-- Card Template -->
+                            <div class="bg-white p-6 rounded-lg shadow-lg h-44 ">
+                                <h3 class="text-sm font-bold mb-4 inline-block bg-green-800 text-white rounded-2xl px-2 py-2">Best Route</h3>
+                                <!-- Cities and Icons Row -->
+                                <div class="flex items-center mb-4 space-x-4">
+                                    <div class="flex items-center">
+                                        <img src="img/airplaneicon.png" alt="Plane Icon" class="icon">
+                                        <span>City G</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <img src="img\trainicon.png" alt="Train Icon" class="icon">
+                                        <span>City H</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <img src="img/busicon.png" alt="Bus Icon" class="icon">
+                                        <span>City I</span>
+                                    </div>
+                                </div>
+                                <!-- Details Row -->
+                                <div class="flex items-center mb-4 space-x-4 h-12 w-full m-1 bg-customPurple text-white rounded-2xl ">
+                                    <div class="underline">Estimated Cost:</div>
+                                    <div>$<span id="estimated-cost-1">895220</span></div>
+                                    
+                                    <div class="underline">Total Agent Incentive:</div>
+                                    <div>$<span id="agent-incentive-1">56600</span></div>
+                                    <div class="underline">Travelling Time:</div>
+                                    <div><span id="travel-time-1"></span>78 hours</div>
+                                </div>
+                            </div>
+                    
+                            <div class="bg-white p-6 rounded-lg shadow-lg h-44">
+                                <h3 class="text-sm font-bold mb-4 inline-block bg-green-800 text-white rounded-2xl px-2 py-2">Cheapest Route</h3>
+                                <!-- Cities and Icons Row -->
+                                <div class="flex items-center mb-4 space-x-4">
+                                    <div class="flex items-center">
+                                        <img src="img/airplaneicon.png" alt="Plane Icon" class="icon">
+                                        <span>City G</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <img src="img\trainicon.png" alt="Train Icon" class="icon">
+                                        <span>City H</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <img src="img/busicon.png" alt="Bus Icon" class="icon">
+                                        <span>City I</span>
+                                    </div>
+                                </div>
+                                <!-- Details Row -->
+                                <div class="flex items-center mb-4 space-x-4 h-12 w-full m-1 bg-customPurple text-white rounded-2xl">
+                                    <div class="underline">Estimated Cost:</div>
+                                    <div >$<span id="estimated-cost-2"></span></div>
+                                    
+                                    <div class="underline" >Total Agent Incentive:</div>
+                                    <div >$<span id="agent-incentive-2"></span></div>
+                                    <div class="underline">Travelling Time:</div>
+                                    <div ><span id="travel-time-2"></span> hours</div>
+                                </div>
+                            </div>
+                    
+                            <div class="bg-white p-6 rounded-lg shadow-lg h-44">
+                                <h3 class="text-sm font-bold mb-4 inline-block bg-green-800 text-white rounded-2xl px-2 py-2">Fastest</h3>
+                                <!-- Cities and Icons Row -->
+                                <div class="flex items-center mb-4 space-x-4">
+                                    <div class="flex items-center">
+                                        <img src="img/airplaneicon.png" alt="Plane Icon" class="icon">
+                                        <span>City G</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <img src="img\trainicon.png" alt="Train Icon" class="icon">
+                                        <span>City H</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <img src="img/busicon.png" alt="Bus Icon" class="icon">
+                                        <span>City I</span>
+                                    </div>
+                                </div>
+                                <!-- Details Row -->
+                                <div class="flex items-center mb-4 space-x-4 h-12 w-full m-1 bg-customPurple text-white rounded-2xl">
+                                    <div class="underline">Estimated Cost:</div>
+                                    <div >$<span id="estimated-cost-3"></span></div>
+                                    
+                                    <div class="underline">Total Agent Incentive:</div>
+                                    <div>$<span id="agent-incentive-3"></span></div>
+                                    <div class="underline">Travelling Time:</div>
+                                    <div><span id="travel-time-3"></span> hours</div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <script>
+                            const cityElement = document.getElementById('Arr/DesCitiesAdded');
+                            const h2Element = cityElement.querySelector('h2'); // Select h2 tag inside div
+                            const pElement = cityElement.querySelector('p');   // Select p tag inside div
+                            h2Element.innerText = localStorage.getItem('CityDropdown');
+                            pElement.innerText =  localStorage.getItem('CityDropdownDescription');
+
+                            const cityElement2 = document.getElementById('DynamicCities');
+                            const h2Element2 = cityElement.querySelector('h2'); // Select h2 tag inside div
+                            const pElement2 = cityElement.querySelector('p');   // Select p tag inside div
+                            h2Element2.innerText = localStorage.getItem('DestinationCities');
+                            pElement2.innerText =  localStorage.getItem('DestinationCitiesDescription');
+                            
+                            // document.addEventListener('DOMContentLoaded', () => {
+                            //     const randomValues = (id) => {
+                            //         document.getElementById(`estimated-cost-${id}`).innerText = (Math.random() * 1000).toFixed(2);
+                            //         document.getElementById(`selected-cost-${id}`).innerText = (Math.random() * 800).toFixed(2);
+                            //         document.getElementById(`agent-incentive-${id}`).innerText = (Math.random() * 200).toFixed(2);
+                            //         document.getElementById(`travel-time-${id}`).innerText = (Math.random() * 24).toFixed(2);
+                            //     }
+                    
+                            //     [1, 2, 3].forEach(randomValues);
+                            // });
+                            // const cityElement = document.getElementById('Arr/DesCitiesAdded');
+                            // const h2Element = cityElement.querySelector('h2'); // Select h2 tag inside div
+                            // const pElement = cityElement.querySelector('p');   // Select p tag inside div
+                            // h2Element.innerText = localStorage.getItem('citydropdown');
+                        </script>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="w-1/2 flex flex-nowrap space-x-4 bg-gray-200 p-4">
+
+                    <div id="empty-state" class="flex justify-center items-center h-80 ">
+                        <img src="img\map.jpeg" alt="Empty bin" >
+                        <!-- <img src="data:image/jpeg;base64,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" alt="Empty bin" class="w-72 h-64"> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="secondhalf"><map name="map"></map></div>
+    </div>
+</div>
+
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const estimatedCost = (Math.random() * 1000).toFixed(2);
+        const selectedCost = (Math.random() * 800).toFixed(2);
+        const agentIncentive = (Math.random() * 200).toFixed(2);
+        const travelTime = (Math.random() * 24).toFixed(2);
+
+        document.getElementById('estimated-cost').innerText = estimatedCost;
+        document.getElementById('selected-cost').innerText = selectedCost;
+        document.getElementById('agent-incentive').innerText = agentIncentive;
+        document.getElementById('travel-time').innerText = travelTime;
+    });
+    // const cityElement = document.getElementById('Arr/DesCitiesAdded');
+    //   const h2Element = cityElement.querySelector('h2'); // Select h2 tag inside div
+    //   const pElement = cityElement.querySelector('p');   // Select p tag inside div
+    //   h2Element.innerText = localStorage.getItem('citydropdown');
+    // pElement.innerText = cityDescription;
+    // function updateCityInformation(cityName, cityDescription) {
+    //   const cityElement = document.getElementById('ArrDesCitiesAdded');
+    //   const h2Element = cityElement.querySelector('h2'); // Select h2 tag inside div
+    //   const pElement = cityElement.querySelector('p');   // Select p tag inside div
+
+    //   // Update h2 and p tag contents
+    //   h2Element.innerText = cityName;
+    //   pElement.innerText = cityDescription;
+    // }
+    // updateCityInformation(localStorage.setItem('citydropdown'), i);
+</script> -->
+</body>
+</html>

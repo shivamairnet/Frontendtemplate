@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Information</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+     <style>
+        
+        body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.city-info {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+}
+
+.city-info h2 {
+    margin-top: 0;
+}
+
+.city-info img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+     </style>
+</head>
+<body>
+    <h1>City Information</h1>
+    <div class="container">
+        <label for="city-dropdown">Select a city:</label>
+        <select id="city-dropdown">
+            <option value="">Select a city...</option>
+        </select>
+        <br><br>
+        <div class="city-info" id="arrival-city-info">
+            <h2>Arrival City Information</h2>
+            <div id="arrival-city-image"></div>
+            <p id="arrival-city-description"></p>
+            <ul id="arrival-city-airports"></ul>
+        </div>
+        <div class="city-info" id="destination-city-info">
+            <h2>Destination City Information</h2>
+            <div id="destination-city-image"></div>
+            <p id="destination-city-description"></p>
+            <ul id="destination-city-airports"></ul>
+        </div>
+    </div>
+
+    <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Reference to HTML elements
+    const cityDropdown = document.getElementById('city-dropdown');
+    const arrivalCityImage = document.getElementById('arrival-city-image');
+    const arrivalCityDescription = document.getElementById('arrival-city-description');
+    const arrivalCityAirports = document.getElementById('arrival-city-airports');
+    const destinationCityImage = document.getElementById('destination-city-image');
+    const destinationCityDescription = document.getElementById('destination-city-description');
+    const destinationCityAirports = document.getElementById('destination-city-airports');
+
+    // City data object
+    const cityData = {
+        Mumbai: {
+            image: 'img/mumbai.jpeg',
+            info: 'Mumbai is the financial capital of India.',
+            airports: ['Chhatrapati Shivaji Maharaj International Airport', 'Juhu Aerodrome']
+        },
+        Delhi: {
+            image: 'img/delhi.jpeg',
+            info: 'Delhi is the capital city of India.',
+            airports: ['Indira Gandhi International Airport', 'Safdarjung Airport']
+        },
+        Bangalore: {
+            image: 'img/bangalore.jpeg',
+            info: 'Bangalore is known as the Silicon Valley of India.',
+            airports: ['Kempegowda International Airport', 'HAL Airport']
+        },
+        Chennai: {
+            image: 'img/chennai.jpeg',
+            info: 'Chennai is known for its cultural heritage.',
+            airports: ['Chennai International Airport', 'Madras Airport']
+        }
+    };
+
+    // Populate dropdown with city names
+    for (const city in cityData) {
+        let option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        cityDropdown.appendChild(option);
+    }
+
+    // Function to update city information
+    function updateCityInformation(city, cityImageElem, cityDescriptionElem, cityAirportsElem) {
+        if (city) {
+            // Update city information
+            cityImageElem.innerHTML = `<img src="${cityData[city].image}" alt="${city}">`;
+            cityDescriptionElem.textContent = cityData[city].info;
+
+            // Update airports list
+            const airports = cityData[city].airports;
+            cityAirportsElem.innerHTML = airports.map(airport => `<li>${airport}</li>`).join('');
+        } else {
+            // Clear city information if no city is selected
+            cityImageElem.innerHTML = '';
+            cityDescriptionElem.textContent = '';
+            cityAirportsElem.innerHTML = '';
+        }
+    }
+
+    // Event listener for dropdown change
+    cityDropdown.addEventListener('change', function() {
+        const selectedCity = this.value;
+
+        // Update arrival city information
+        updateCityInformation(selectedCity, arrivalCityImage, arrivalCityDescription, arrivalCityAirports);
+
+        // Update destination city information (assuming same functionality as arrival city)
+        updateCityInformation(selectedCity, destinationCityImage, destinationCityDescription, destinationCityAirports);
+    });
+});
+
+    </script>
+    <!-- <script src="script.js"></script> -->
+</body>
+</html>

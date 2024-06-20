@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Searchable Dropdown</title>
+    <link rel="stylesheet" href="cities.css">
+</head>
+<body>
+    <div class="dropdown">
+        <input type="text" id="cityInput" placeholder="Select a city..." onkeyup="filterFunction()">
+        <div id="dropdownContent" class="dropdown-content">
+            <!-- Cities will be inserted here by JavaScript -->
+        </div>
+    </div>
+    <div class="custom-dropdown">
+        <input type="text" id="custom-cityInput" placeholder="Select a city..." onkeyup="customFilterFunction()">
+        <div id="custom-dropdownContent" class="custom-dropdown-content">
+            <!-- Cities will be inserted here by JavaScript -->
+        </div>
+    </div>
+    <script src="cities.js"></script>
+</body>
+</html>

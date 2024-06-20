@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Information</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 20px;
+        }
+
+        .city-selection {
+            margin-bottom: 20px;
+        }
+
+        .city-info-wrapper {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .city-info {
+            border: 1px solid #000;
+            padding: 10px;
+            width: 200px;
+            position: relative;
+            box-sizing: border-box;
+            background-color: #fff;
+            overflow: hidden;
+        }
+
+        .city-info img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 10px auto;
+        }
+
+        .city-info h2 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .city-info p {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .city-info ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .lock-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            background: #f00;
+            color: #fff;
+            border: none;
+            padding: 5px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+
+        .locked {
+            background-color: #f0f0f0;
+            cursor: not-allowed;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>City Information</h1>
+    <div class="container">
+        <div class="city-selection">
+            <label for="city-dropdown">Select a city:</label>
+            <select id="city-dropdown">
+                <option value="">Select a city...</option>
+            </select>
+            <br><br>
+            <label for="city-search">Search city:</label>
+            <input type="text" id="city-search" list="city-list" placeholder="Search city...">
+            <datalist id="city-list">
+                <!-- Options will be dynamically populated by JavaScript -->
+            </datalist>
+        </div>
+        
+        <div class="city-info-wrapper">
+            <div class="city-info" id="arrival-city-info">
+                <h2>Arrival City Information</h2>
+                <div id="arrival-city-image"></div>
+                <p id="arrival-city-description"></p>
+                <ul id="arrival-city-airports"></ul>
+            </div>
+
+            <div id="dynamic-cities-container" class="city-info-wrapper">
+                <!-- Dynamic cities will be added here -->
+            </div>
+
+            <div class="city-info" id="destination-city-info">
+                <h2>Destination City Information</h2>
+                <div id="destination-city-image"></div>
+                <p id="destination-city-description"></p>
+                <ul id="destination-city-airports"></ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cityDropdown = document.getElementById('city-dropdown');
+            const citySearch = document.getElementById('city-search');
+            const cityList = document.getElementById('city-list');
+            const arrivalCityInfo = document.getElementById('arrival-city-info');
+            const destinationCityInfo = document.getElementById('destination-city-info');
+            const dynamicCitiesContainer = document.getElementById('dynamic-cities-container');
+        
+            const cityData = {
+                Mumbai: {
+                    image: 'img/mumbai.jpeg',
+                    info: 'Mumbai is the financial capital of India.',
+                    airports: ['Chhatrapati Shivaji Maharaj International Airport', 'Juhu Aerodrome']
+                },
+                Delhi: {
+                    image: 'img/delhi.jpeg',
+                    info: 'Delhi is the capital city of India.',
+                    airports: ['Indira Gandhi International Airport', 'Safdarjung Airport']
+                },
+                Bangalore: {
+                    image: 'img/bangalore.jpeg',
+                    info: 'Bangalore is known as the Silicon Valley of India.',
+                    airports: ['Kempegowda International Airport', 'HAL Airport']
+                },
+                Chennai: {
+                    image: 'img/chennai.jpeg',
+                    info: 'Chennai is known for its cultural heritage.',
+                    airports: ['Chennai International Airport', 'Madras Airport']
+                }
+            };
+        
+            for (const city in cityData) {
+                let option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                cityDropdown.appendChild(option);
+        
+                let datalistOption = document.createElement('option');
+                datalistOption.value = city;
+                cityList.appendChild(datalistOption);
+            }
+        
+            function updateCityInformation(city, cityInfoElem) {
+                if (city) {
+                    cityInfoElem.innerHTML = `
+                        <h2>${city} City Information</h2>
+                        <div><img src="${cityData[city].image}" alt="${city}"></div>
+                        <p>${cityData[city].info}</p>
+                        <ul>${cityData[city].airports.map(airport => `<li>${airport}</li>`).join('')}</ul>
+                        <button class="lock-toggle">Lock</button>
+                    `;
+                } else {
+                    cityInfoElem.innerHTML = '';
+                }
+            }
+        
+            cityDropdown.addEventListener('change', function() {
+                const selectedCity = this.value;
+        
+                updateCityInformation(selectedCity, arrivalCityInfo);
+                updateCityInformation(selectedCity, destinationCityInfo);
+                dynamicCitiesContainer.innerHTML = '';
+            });
+        
+            citySearch.addEventListener('input', function() {
+                const searchText = this.value.toLowerCase();
+                const matchedCities = Object.keys(cityData).filter(city => city.toLowerCase().includes(searchText));
+        
+                cityList.innerHTML = '';
+        
+                matchedCities.forEach(city => {
+                    let datalistOption = document.createElement('option');
+                    datalistOption.value = city;
+                    cityList.appendChild(datalistOption);
+                });
+            });
+        
+            function addDynamicCity(city) {
+                const existingCity = Array.from(dynamicCitiesContainer.children).find(child => child.dataset.city === city);
+                if (existingCity) return;
+        
+                const newCityInfo = document.createElement('div');
+                newCityInfo.classList.add('city-info');
+                newCityInfo.dataset.city = city;
+                newCityInfo.draggable = true;
+        
+                updateCityInformation(city, newCityInfo);
+                dynamicCitiesContainer.appendChild(newCityInfo);
+        
+                newCityInfo.addEventListener('dragstart', function(e) {
+                    if (!this.classList.contains('locked')) {
+                        e.dataTransfer.setData('text/plain', city);
+                        e.dataTransfer.effectAllowed = 'move';
+                        this.classList.add('dragging');
+                    } else {
+                        e.preventDefault();
+                    }
+                });
+        
+                newCityInfo.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                });
+        
+                newCityInfo.addEventListener('click', function() {
+                    this.classList.toggle('locked');
+                    const lockToggle = this.querySelector('.lock-toggle');
+                    lockToggle.textContent = this.classList.contains('locked') ? 'Unlock' : 'Lock';
+                });
+        
+                newCityInfo.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    const dragging = document.querySelector('.dragging');
+                    const bounding = this.getBoundingClientRect();
+                    const offset = e.clientY - bounding.top + this.scrollTop;
+                    if (offset > bounding.height / 2) {
+                        this.style.borderBottom = "2px solid #000";
+                        this.style.borderTop = "";
+                    } else {
+                        this.style.borderTop = "2px solid #000";
+                        this.style.borderBottom = "";
+                    }
+                });
+        
+                newCityInfo.addEventListener('dragleave', function() {
+                    this.style.borderTop = "";
+                    this.style.borderBottom = "";
+                });
+        
+                newCityInfo.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.style.borderTop = "";
+                    this.style.borderBottom = "";
+                    const draggedCity = e.dataTransfer.getData('text/plain');
+                    const draggedElem = document.querySelector('.dragging');
+                    const bounding = this.getBoundingClientRect();
+                    const offset = e.clientY - bounding.top + this.scrollTop;
+                    if (offset > bounding.height / 2) {
+                        this.parentNode.insertBefore(draggedElem, this.nextSibling);
+                    } else {
+                        this.parentNode.insertBefore(draggedElem, this);
+                    }
+                });
+            }
+        
+            citySearch.addEventListener('change', function() {
+                const selectedCity = this.value;
+                if (!selectedCity || !cityData[selectedCity]) return;
+        
+                addDynamicCity(selectedCity);
+                this.value = '';
+            });
+        
+            citySearch.addEventListener('input', function() {
+                const selectedCity = this.value;
+                const matchedCities = Object.keys(cityData).filter(city => city.toLowerCase().includes(selectedCity.toLowerCase()));
+        
+                if (matchedCities.length === 1 && matchedCities[0].toLowerCase() === selectedCity.toLowerCase()) {
+                    addDynamicCity(matchedCities[0]);
+                    this.value = '';
+                }
+            });
+        
+            // Restrict drag and drop to specific sections
+            function setupDragAndDrop(container) {
+                container.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                });
+        
+                container.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    const draggedCity = e.dataTransfer.getData('text/plain');
+                    const draggedElem = document.querySelector('.dragging');
+                    if (draggedElem) {
+                        this.appendChild(draggedElem);
+                    }
+                });
+        
+                Array.from(container.children).forEach(child => {
+                    child.addEventListener('dragover', function(e) {
+                        e.preventDefault();
+                        const dragging = document.querySelector('.dragging');
+                        const bounding = this.getBoundingClientRect();
+                        const offset = e.clientY - bounding.top + this.scrollTop;
+                        if (offset > bounding.height / 2) {
+                            this.style.borderBottom = "2px solid #000";
+                            this.style.borderTop = "";
+                        } else {
+                            this.style.borderTop = "2px solid #000";
+                            this.style.borderBottom = "";
+                        }
+                    });
+        
+                    child.addEventListener('dragleave', function() {
+                        this.style.borderTop = "";
+                        this.style.borderBottom = "";
+                    });
+        
+                    child.addEventListener('drop', function(e) {
+                        e.preventDefault();
+                        this.style.borderTop = "";
+                        this.style.borderBottom = "";
+                        const draggedCity = e.dataTransfer.getData('text/plain');
+                        const draggedElem = document.querySelector('.dragging');
+                        const bounding = this.getBoundingClientRect();
+                        const offset = e.clientY - bounding.top + this.scrollTop;
+                        if (offset > bounding.height / 2) {
+                            this.parentNode.insertBefore(draggedElem, this.nextSibling);
+                        } else {
+                            this.parentNode.insertBefore(draggedElem, this);
+                        }
+                    });
+                });
+            }
+        
+            setupDragAndDrop(arrivalCityInfo);
+            setupDragAndDrop(destinationCityInfo);
+            setupDragAndDrop(dynamicCitiesContainer);
+        });
+    </script>
+</body>
+</html>

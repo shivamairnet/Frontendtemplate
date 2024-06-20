@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind CSS Modal</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script defer>
+        function openModal() {
+            document.getElementById('modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
+
+        
+    </script>
+    <style>
+
+    .border-customPurple{
+            border-color:#323268;
+     }
+    
+    .bg-customPurple {
+      background-color: #323268;
+    }
+    
+    .text-customPurple {
+      color: #323268;
+    }
+
+    .bg-customOrange {
+      background-color: #e2472b;
+    }
+    
+    .text-customOrange {
+      color: #e2472b;
+    }
+
+    .shadow-custom {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <button onclick="openModal()" class="px-4 py-2 bg-customOrange text-white font-bold underline rounded-2xl border-customPurple border-2">Advanced Traveller Options</button>
+
+    <div id="modal" class="fixed inset-0 flex items-center justify-center h-5/6">
+       
+        <div class="bg-white p-6 rounded-2xl border-2 border-customPurple shadow-lg">
+            <h2 class="text-2xl shadow-custom text-center mb-4 font-bold underline text-customOrange">Advance Traveller Options</h2>
+            <!-- <p class="mb-4">This is the content of the modal.</p> -->
+            <h2 class="text-2xl shadow-custom mb-4 font-bold underline text-customOrange">Traveller Age</h2>
+             <div class="flex space-x-4">
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-2xl h-10 mb-4">
+                <label for="input4" class="text-white mr-2 text-sm underline">Adult1</label>
+                <input type="text" id="input4" name="input4" class="bg-white text-black rounded-2xl h-7 px-2 py-1 w-24">
+            </div>
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-2xl h-10 mb-4">
+                <label for="input4" class="text-white mr-2 text-sm underline">Adult2</label>
+                <input type="text" id="input4" name="input4" class="bg-white text-black rounded-2xl h-7 px-2 py-1 w-24">
+            </div>
+
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-2xl h-10 mb-4">
+                <label for="input4" class="text-white mr-2 text-sm underline">Child1</label>
+                <input type="text" id="input4" name="input4" class="bg-white text-black rounded-2xl h-7 px-2 py-1 w-24">
+            </div>
+        </div>
+
+            <h2 class="text-2xl mb-4 font-bold underline shadow-custom text-customOrange">Traveller Type</h2>
+            <div class="flex space-x-4">
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-4 h-10">
+                <label for="input4" class="text-white mr-2 text-sm underline">Adult1</label>
+                <!-- <input type="text" id="input4" name="input4" class="bg-white h-7 text-black rounded-2xl px-2 py-1 w-24"> -->
+            </div>
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-4 h-10">
+                <label for="input4" class="text-white mr-2 text-sm underline">Adult2</label>
+                <!-- <input type="text" id="input4" name="input4" class="bg-white h-7 text-black rounded-2xl px-2 py-1 w-24"> -->
+            </div>
+
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-4 h-10">
+                <label for="input4" class="text-white mr-2 text-sm underline">Child1</label>
+                <!-- <input type="text" id="input4" name="input4" class="bg-white h-7 text-black rounded-2xl px-2 py-1 w-24"> -->
+            </div>
+            </div>
+            <h2 class="text-2xl mb-4 font-bold underline shadow-custom text-customOrange">Nature Of Trip</h2>
+            <div class="flex space-x-4 h-10">
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-2 h-10">
+                <label for="input4" class="text-white mr-2 text-sm underline h-5">Leisure</label>
+                <!-- <input type="text" id="input4" name="input4" class="bg-white h-5 text-black rounded-2xl px-2 py-1 w-24"> -->
+            </div>
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-2 h-10">
+                <label for="input4" class="text-white mr-2 text-sm underline h-5">Business</label>
+                <!-- <input type="text" id="input4" name="input4" class="bg-white h-7 text-black rounded-2xl px-2 py-1 w-24"> -->
+            </div>
+
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-2 h-10">
+                <label for="input4" class="text-white mr-2 text-sm underline h-5">Honeymoon</label>
+                <!-- <input type="text" id="input4" name="input4" class="bg-white h-7 text-black rounded-2xl px-2 py-1 w-24"> -->
+            </div>
+
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-2 h-10">
+                <label for="input4" class="text-white mr-2 text-sm underline h-5">Birthday</label>
+                <!-- <input type="text" id="input4" name="input4" class="bg-white h-7 text-black rounded-2xl px-2 py-1 w-24"> -->
+            </div>
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-2 h-10">
+                <label for="input4" class="text-white mr-2 text-sm underline h-5">Anniversary</label>
+                <!-- <input type="text" id="input4" name="input4" class="bg-white h-7 text-black rounded-2xl px-2 py-1 w-24"> -->
+            </div>
+
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-2 h-10">
+                <label for="input4" class="text-white mr-2 text-sm underline h-5">Bachelors</label>
+                <!-- <input type="text" id="input4" name="input4" class="bg-white h-7 text-black rounded-2xl px-2 py-1 w-24"> -->
+            </div>
+        </div>
+
+        <h2 class="text-2xl mb-4 font-bold underline shadow-custom text-customOrange">Preferences</h2>
+            <div class="flex space-x-4 h-10">
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-2 h-10">
+                <label for="input4" class="text-white mr-2 text-sm underline h-5">Adult1</label>
+                <!-- <input type="text" id="input4" name="input4" class="bg-white h-7 text-black rounded-2xl px-2 py-1 w-24"> -->
+            </div>
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-2 h-10">
+                <label for="input4" class="text-white mr-2 text-sm underline h-5">Adult2</label>
+                <!-- <input type="text" id="input4" name="input4" class="bg-white h-7 text-black rounded-2xl px-2 py-1 w-24"> -->
+            </div>
+
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-2 h-10">
+                <label for="input4" class="text-white mr-2 text-sm underline h-5">Child1</label>
+                <!-- <input type="text" id="input4" name="input4" class="bg-white h-7 text-black rounded-2xl px-2 py-1 w-24"> -->
+            </div>
+        </div>
+
+        <h2 class="text-2xl mb-4 font-bold underline shadow-custom text-customOrange">Cuisines</h2>
+            <div class="flex space-x-4 h-10 p-1">
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-2 h-10 p-1">
+                <label for="input4" class="text-white mr-2 text-sm underline h-7">Adult1</label>
+                <!-- <input type="text" id="input4" name="input4" class="bg-white h-7 text-black rounded-2xl px-2 py-1 w-24"> -->
+            </div>
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-2 h-10 p-1">
+                <label for="input4" class="text-white mr-2 text-sm underline h-7">Adult2</label>
+                <!-- <input type="text" id="input4" name="input4" class="bg-white h-7 text-black rounded-2xl px-2 py-1 w-24"> -->
+            </div>
+
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-2 h-10 p-1">
+                <label for="input4" class="text-white mr-2 text-sm underline h-7">Child1</label>
+                <!-- <input type="text" id="input4" name="input4" class="bg-white h-7 text-black rounded-2xl px-2 py-1 w-24"> -->
+            </div>
+        </div>
+
+        <!-- <h2 class="text-2xl mb-4 font-bold underline shadow-custom text-customOrange">Pace Of Travel</h2>
+            <div class="flex space-x-4 h-10">
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-2 h-10">
+                <button id="btn1" class="selectable-button px-4 py-2 bg-customPurple text-white rounded-xl">Fast</button>
+            </div>
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-2 h-10">
+                <button id="btn1" class="selectable-button px-4 py-2 bg-customPurple text-white rounded-xl">Medium</button>
+            </div>
+
+            <div class="flex items-center justify-between bg-customPurple p-2 rounded-xl mb-2 h-10">
+                <button id="btn1" class="selectable-button px-4 py-2 bg-customPurple text-white rounded-xl ">Slow</button>
+            </div>
+        </div> -->
+            <button onclick="closeModal()" class="px-4 py-2 bg-red-500 text-white rounded">Close</button>
+            <!-- <button onclick="" class="px-4 py-2 bg-red-500 text-white rounded justify-center">Generate Routes</button> -->
+            <button onclick="window.location.href='template3.html';" class="px-4 py-2 mt-2 bg-customOrange text-white rounded-2xl underline border-2 border-customPurple">Generate Routes</button>
+        </div>
+    </div>
+
+</body>
+</html>

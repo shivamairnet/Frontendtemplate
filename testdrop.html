@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Information</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#city-info {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+}
+
+#city-image img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+
+#city-airports {
+    list-style-type: none;
+    padding: 0;
+}
+
+#city-airports li {
+    margin-bottom: 5px;
+}
+
+    </style>
+</head>
+<body>
+
+    <h1>City Information</h1>
+    <div class="container">
+        <label for="city-dropdown">Select a city:</label>
+        <select id="city-dropdown">
+            <option value="">Select a city...</option>
+        </select>
+        <br><br>
+        <label for="city-search">Search city:</label>
+        <input type="text" id="city-search" placeholder="Search city...">
+        <br><br>
+        <div id="city-info">
+            <h2>City Information</h2>
+            <div id="city-image"></div>
+            <p id="city-description"></p>
+            <ul id="city-airports"></ul>
+        </div>
+    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Reference to HTML elements
+    const cityDropdown = document.getElementById('city-dropdown');
+    const citySearch = document.getElementById('city-search');
+    const cityImage = document.getElementById('city-image');
+    const cityDescription = document.getElementById('city-description');
+    const cityAirports = document.getElementById('city-airports');
+
+    // City data object
+    const cityData = {
+        Mumbai: {
+            image: 'img/mumbai.jpeg',
+            info: 'Mumbai is the financial capital of India.',
+            airports: ['Chhatrapati Shivaji Maharaj International Airport', 'Juhu Aerodrome']
+        },
+        Delhi: {
+            image: 'img/delhi.jpeg',
+            info: 'Delhi is the capital city of India.',
+            airports: ['Indira Gandhi International Airport', 'Safdarjung Airport']
+        },
+        Bangalore: {
+            image: 'img/bangalore.jpeg',
+            info: 'Bangalore is known as the Silicon Valley of India.',
+            airports: ['Kempegowda International Airport', 'HAL Airport']
+        },
+        Chennai: {
+            image: 'img/chennai.jpeg',
+            info: 'Chennai is known for its cultural heritage.',
+            airports: ['Chennai International Airport', 'Madras Airport']
+        }
+    };
+
+    // Populate dropdown and autocomplete input
+    for (const city in cityData) {
+        // Add options to dropdown
+        let option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        cityDropdown.appendChild(option);
+    }
+
+    // Autocomplete functionality for search input
+    citySearch.addEventListener('input', function() {
+        const searchText = this.value.toLowerCase();
+        const matchedCities = Object.keys(cityData).filter(city => city.toLowerCase().includes(searchText));
+
+        // Clear previous results
+        cityDropdown.innerHTML = '<option value="">Select a city...</option>';
+
+        // Populate dropdown with matched cities
+        matchedCities.forEach(city => {
+            let option = document.createElement('option');
+            option.value = city;
+            option.textContent = city;
+            cityDropdown.appendChild(option);
+        });
+    });
+
+    // Event listener for dropdown change
+    cityDropdown.addEventListener('change', function() {
+        const selectedCity = this.value;
+
+        if (selectedCity) {
+            // Update city information
+            cityImage.innerHTML = `<img src="${cityData[selectedCity].image}" alt="${selectedCity}">`;
+            cityDescription.textContent = cityData[selectedCity].info;
+
+            // Update airports list
+            const airports = cityData[selectedCity].airports;
+            cityAirports.innerHTML = airports.map(airport => `<li>${airport}</li>`).join('');
+        } else {
+            // Clear city information if no city is selected
+            cityImage.innerHTML = '';
+            cityDescription.textContent = '';
+            cityAirports.innerHTML = '';
+        }
+    });
+});
+
+</script>
+    <!-- <script src="script.js"></script> -->
+</body>
+</html>

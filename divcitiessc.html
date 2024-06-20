@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="public/styles.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+<style>
+
+    .bg-customPurple {
+      background-color: #323268;
+    }
+    
+    .text-customPurple {
+      color: #323268;
+    }
+
+    .bg-customOrange {
+      background-color: #e2472b;
+    }
+    .text-customOrange {
+      color: #e2472b;
+    }
+
+    .placeholder-customPurple ::placeholder {
+        color:#323268;
+    }
+
+    .border-customPurple {
+            border-color: #323268;
+        }
+    
+
+</style>
+</head>
+<body class="h-full">
+
+            <div>
+                <div class="mb-4">
+                    <nav>
+                        <a href="#home" class="text-customPurple">Home / Itinerary</a>
+                    </nav>
+                </div>
+                
+                <div class="mb-4 text-center font-bold">
+                    <h2 class="text-customOrange underline">Make Your Own Holiday!</h2>
+                </div>
+
+
+        
+        <div class="flex flex-nowrap space-x-4 bg-gray-200 p-4">
+            <div class="flex-1 max-w-1/4 flex items-stretch">
+                <div class="flex items-center justify-between bg-customPurple p-1 rounded-2xl w-full">
+                    <label for="input5" class="text-white mr-2 text-sm underline">Departure Date</label>
+                    <input type="date" id="input5" name="input5" class="bg-white text-black rounded-2xl px-2 py-1 w-24">
+                </div>
+            </div>
+            
+            <div class="flex-1 max-w-1/4 flex items-stretch">
+                <div class="flex items-center justify-between bg-customPurple p-1 rounded-2xl w-full">
+                    <label for="input1" class="text-white mr-2 text-sm underline">Departure City</label>
+                    <input type="text" id="input1" name="input1" class="bg-white text-black rounded-2xl px-2 py-1 w-20">
+                </div>
+            </div>
+            
+            <div class="flex-1 max-w-1/4 flex items-stretch">
+                <div class="flex items-center justify-between bg-customPurple p-2 rounded-2xl w-full">
+                    <label for="input2" class="text-white mr-2 text-sm underline">Travellers</label>
+                    <input type="text" id="input2" name="input2" class="bg-white text-black rounded-2xl px-2 py-1 w-20">
+                </div>
+            </div>
+            
+            <div class="flex-1 max-w-1/4 flex items-stretch">
+                <div class="flex items-center justify-between w-full">
+                    <button onclick="openModal()" class="px-4 py-2 bg-customOrange text-white font-bold underline rounded-2xl border-customPurple border-2">Advanced Traveller Options</button>
+                    <!-- <label for="input3" class="text-white mr-2 text-sm underline">Purpose of Travel</label> -->
+                    <!-- <input type="text" id="input3" name="input3" class="bg-white text-black rounded-md px-2 py-1 w-20"> -->
+                </div>
+            </div>
+            
+            <!-- <div class="flex-1 max-w-1/5 flex items-stretch">
+                <div class="flex items-center justify-between bg-customPurple p-2 rounded-md w-full">
+                    <label for="input4" class="text-white mr-2 text-sm underline">Traveller Type</label>
+                    <input type="text" id="input4" name="input4" class="bg-white text-black rounded-md px-2 py-1 w-24">
+                </div>
+            </div> -->
+        </div>
+        <div class="flex items-center justify-center p-2 m-2">
+            <input type="text" placeholder="Enter Destination Cities" name="input4" class="bg-white text-customPurple underline font-bold rounded-md px-2 py-1 w-auto placeholder-customPurple placeholder-opacity-75 shadow-lg">
+        </div>
+        
+          
+
+            <div id="empty-state" class="flex justify-center items-center h-80 ">
+                <img src="img/vision (1).png" alt="Empty bin" class="w-64 h-64 rounded-full">
+                <!-- <img src="data:image/jpeg;base64,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" alt="Empty bin" class="w-72 h-64"> -->
+            </div>
+
+            
+
+<!-- search cities button -->
+<div class="mb-4">
+    <div class="flex items-center justify-between bg-customPurple p-2 rounded-md">
+        <input type="text" id="input6" name="input6" class="bg-white text-black rounded-md px-2 py-1">
+    </div>
+</div>
+
+
+            <div class="searchcities">
+                <div class="flex justify-between mb-4">
+                    <div class="flex">
+                        <label for="Startdate" class="mb-2">Start Date</label>
+                        <input type="text" placeholder="Select Start Date" class="bg-white text-black rounded-md px-2 py-1">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h2>Total Travel Days:</h2>
+                    </div>
+                    <hr class="mb-4">
+                </div>
+                <div class="mb-4">
+                    <div class="addcities mb-4">
+                        <h3>Cities are here</h3>
+                    </div>
+                    <hr class="mb-4">
+                    <div class="flex justify-between">
+                        <button type="reset" class="bg-customOrange text-white px-4 py-2 rounded">Clear</button>
+                        <button type="submit" class="bg-customPurple text-white px-4 py-2 rounded">Submit</button>
+                    </div>
+                </div>
+            </div>
+           
+<!-- function search(event) {
+  const query = $(this).val();
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(function() {
+    if (query.length >= 3 || (event.keyCode === 8 && query.length >= 3)) {
+      $.ajax({
+        url: "/search/city",
+        type: "GET",
+        data: {
+          query: query
+        },
+        success: function(data) {
+          const suggestionsBox = $(suggestionsBoxId);
+          suggestionsBox.empty();
+          if (data.cities && data.cities.length) {
+            data.cities.forEach(function(city) {
+              suggestionsBox.append(`
+                                        <div data-id="${city.city_id}">
+                                            ${city.city_name}${city.state_name ? `, ${city.state_name}` : ""}${city.country_name ? `, ${city.country_name}` : ""}
+                                        </div>
+                                    `);
+            });
+
+            // Position the suggestions box directly below the input field
+            const inputOffset = $(inputId).offset();
+            const inputHeight = $(inputId).outerHeight();
+            suggestionsBox.css({
+              top: inputOffset.top + inputHeight,
+              left: inputOffset.left,
+              width: $(inputId).outerWidth(),
+              display: "table"
+            }).show();
+          } else {
+            suggestionsBox.hide();
+          }
+        }
+      });
+    } else {
+      $(suggestionsBoxId).empty().hide();
+    }
+  }, 300);
+}     -->
+</body>
+</html>

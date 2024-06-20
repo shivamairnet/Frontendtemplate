@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Selector</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .bg-customPurple {
+            background-color: #6b5b95; /* Custom purple color */
+        }
+        .text-customPurple {
+            color: #6b5b95; /* Custom purple color */
+        }
+        .flex {
+            display: flex;
+        }
+        .flex-nowrap {
+            flex-wrap: nowrap;
+        }
+        .space-x-4 > *:not(:last-child) {
+            margin-right: 1rem; /* Adjust spacing between flex items */
+        }
+        .bg-gray-200 {
+            background-color: #edf2f7;
+        }
+        .p-4 {
+            padding: 1rem;
+        }
+        .flex-1 {
+            flex: 1;
+        }
+       
+        .max-w-1-5 {
+            max-width: 20%; /* Corrected class name to avoid special character '/' */
+        }
+        .items-stretch {
+            align-items: stretch;
+        }
+        .items-center {
+            align-items: center;
+        }
+        .justify-between {
+            justify-content: space-between;
+        }
+        .rounded-md {
+            border-radius: 0.375rem; /* Adjust as needed */
+        }
+        .w-full {
+            width: 100%;
+        }
+        .text-white {
+            color: #fff;
+        }
+        .mr-2 {
+            margin-right: 0.5rem;
+        }
+        .text-sm {
+            font-size: 0.875rem;
+        }
+        .underline {
+            text-decoration: underline;
+        }
+        .bg-white {
+            background-color: #fff;
+        }
+        .text-black {
+            color: #000;
+        }
+        .px-2 {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+        .py-1 {
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+        }
+        .py-0 {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .w-24 {
+            width: 6rem; /* Adjust as needed */
+        }
+        .line-height-sm {
+            line-height: 1.25; /* Adjust as needed */
+        }
+        .font-bold {
+            font-weight: bold;
+        }
+        .city-card-container h4, .city-card-container p, .city-card-container ul {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .city-card-container ul {
+            padding-left: 20px; /* Optional: to give some space for list items */
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <select id="citySelector">
+            <option value="">Select a city</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Chennai">Chennai</option>
+        </select>
+        <button onclick="addCityCard()">Add City</button>
+    </div>
+    <div id="dynamicCards"></div>
+
+    <script>
+        const lockedStates = {};
+        const cityData = {
+            Mumbai: {
+                image: 'img/mumbai.jpeg',
+                info: 'Mumbai is the financial capital of India.',
+                airports: ['Chhatrapati Shivaji Maharaj International Airport', 'Juhu Aerodrome']
+            },
+            Delhi: {
+                image: 'img/delhi.jpeg',
+                info: 'Delhi is the capital city of India.',
+                airports: ['Indira Gandhi International Airport', 'Safdarjung Airport']
+            },
+            Bangalore: {
+                image: 'img/bangalore.jpeg',
+                info: 'Bangalore is known as the Silicon Valley of India.',
+                airports: ['Kempegowda International Airport', 'HAL Airport']
+            },
+            Chennai: {
+                image: 'img/chennai.jpeg',
+                info: 'Chennai is known for its cultural heritage.',
+                airports: ['Chennai International Airport', 'Madras Airport']
+            }
+        };
+
+        function addCityCard() {
+            const citySelector = document.getElementById('citySelector');
+            const selectedCity = citySelector.value;
+
+            if (selectedCity) {
+                const dynamicCards = document.getElementById('dynamicCards');
+
+                // Create a container for each city card
+                const cityContainer = document.createElement('div');
+                cityContainer.className = 'city-container';
+
+                // Create a heading for the city
+                const cityHeading = document.createElement('h4');
+                cityHeading.textContent = selectedCity;
+                cityHeading.className = 'text-customPurple underline font-bold';
+                cityContainer.appendChild(cityHeading);
+
+                // Create a lock icon container
+                const lockIconContainer = document.createElement('div');
+                lockIconContainer.className = 'lock-icon-container';
+
+                const lockIcon = document.createElement('i');
+                lockIcon.className = 'fas fa-lock';
+                lockIcon.setAttribute('data-city', selectedCity); // Add data attribute for city
+                lockIcon.onclick = function() {
+                    toggleLock(selectedCity); // Toggle lock when the icon is clicked
+                };
+                lockIconContainer.appendChild(lockIcon);
+                cityContainer.appendChild(lockIconContainer);
+
+                // Create the city card
+                const cityCard = document.createElement('div');
+                cityCard.className = 'card city-card-container'; // Added city-card-container class
+
+                const city = cityData[selectedCity];
+
+                cityCard.innerHTML = `
+                    <img src="${city.image}" alt="${selectedCity} Image">
+                    <div class="container">
+                        <h4 class="text-customPurple underline font-bold">${selectedCity}</h4>
+                        <p class="text-customPurple">${city.info}</p>
+                        <ul class="text-customPurple">${city.airports.map(airport => `<li>${airport}</li>`).join('')}</ul>
+                    </div>
+                `;
+
+                // Create nights container
+                const nightsContainer = document.createElement('div');
+                nightsContainer.className = 'nights-container';
+
+                const minusButton = document.createElement('button');
+                minusButton.textContent = '-';
+                minusButton.onclick = function() {
+                    changeNights(selectedCity, -1);
+                };
+
+                const nightsText = document.createElement('span');
+                nightsText.id = `nights-${selectedCity}`;
+                nightsText.textContent = '0 nights';
+
+                const plusButton = document.createElement('button');
+                plusButton.textContent = '+';
+                plusButton.onclick = function() {
+                    changeNights(selectedCity, 1);
+                };
+
+                nightsContainer.appendChild(minusButton);
+                nightsContainer.appendChild(nightsText);
+                nightsContainer.appendChild(plusButton);
+
+                // Append the nights container to the city card
+                cityCard.appendChild(nightsContainer);
+
+                // Append the city card to the city container
+                cityContainer.appendChild(cityCard);
+
+                // Append the city container to the dynamic cards container
+                dynamicCards.appendChild(cityContainer);
+
+                // Initialize the lock state and nights count for this city
+                lockedStates[selectedCity] = false;
+                nightsCount[selectedCity] = 0;
+            }
+        }
+
+        const nightsCount = {};
+
+        function toggleLock(city) {
+            lockedStates[city] = !lockedStates[city]; // Toggle the lock state
+            const lockIcon = document.querySelector(`[data-city="${city}"]`);
+            lockIcon.classList.toggle('fa-lock'); // Toggle the lock icon class
+            lockIcon.classList.toggle('fa-lock-open'); // Toggle the open lock icon class
+        }
+
+        function changeNights(city, delta) {
+            if (!lockedStates[city]) {
+                nightsCount[city] += delta;
+                if (nightsCount[city] < 0) nightsCount[city] = 0; // Ensure nights count doesn't go negative
+                document.getElementById(`nights-${city}`).textContent = `${nightsCount[city]} nights`;
+            }
+        }
+    </script>
+</body>
+</html>

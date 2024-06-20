@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Selector</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Custom styles for classes used in the tasks */
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .p-1 { padding: 0.25rem; }
+        .p-2 { padding: 0.5rem; }
+        .m-2 { margin: 0.5rem; }
+        .rounded-2xl { border-radius: 1rem; }
+        .rounded-md { border-radius: 0.375rem; }
+        .rounded-lg { border-radius: 0.5rem; }
+        .w-full { width: 100%; }
+        .w-auto { width: auto; }
+        .w-40 { width: 10rem; }
+        .w-48 { width: 12rem; }
+        .h-48 { height: 12rem; }
+        .h-80 { height: 20rem; }
+        .bg-customPurple { background-color: #6B5B95; }
+        .bg-white { background-color: white; }
+        .bg-customOrange { background-color: #FFA500; }
+        .text-white { color: white; }
+        .text-black { color: black; }
+        .text-sm { font-size: 0.875rem; }
+        .text-customPurple { color: #6B5B95; }
+        .underline { text-decoration: underline; }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .overflow-hidden { overflow: hidden; }
+        .fixed-card { max-width: 12rem; max-height: 12rem; }
+        .flex-shrink-0 { flex-shrink: 0; }
+        .gap-2 { gap: 0.5rem; }
+        .mx-12 { margin-left: 3rem; margin-right: 3rem; }
+        .mt-4 { margin-top: 1rem; }
+        .space-x-2 > :not([hidden]) ~ :not([hidden]) { margin-left: 0.5rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-1 { margin-bottom: 0.25rem; }
+        .list-disc { list-style-type: disc; }
+        .pl-5 { padding-left: 1.25rem; }
+        .container { padding: 0.5rem; }
+        .h-22 { height: 5.5rem; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <!-- Task 1: Departure City Selection -->
+    <div class="flex-1 max-w-1/4 flex items-stretch">
+        <div class="flex items-center justify-between bg-customPurple p-1 rounded-2xl w-full">
+            <label for="input1" class="text-white mr-2 text-sm underline">Departure City</label>
+            <select id="input1" name="input1" class="bg-white text-sm text-black rounded-2xl px-2 py-1 w-40">
+                <option value="0">Select City</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Chennai">Chennai</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Task 2: Destination City Input -->
+    <div class="flex items-center justify-center p-2 m-2">
+        <input type="text" id="input4" placeholder="Enter Destination Cities" name="input4" class="bg-white text-customPurple underline font-bold rounded-md px-2 py-1 w-auto placeholder-customPurple placeholder-opacity-75 shadow-lg">
+    </div>
+
+    <!-- Task 3: Empty State -->
+    <div id="empty-state" class="flex justify-center items-center h-80">
+        <img src="img/vision (1).png" alt="Empty bin" class="w-64 h-64 rounded-full">
+    </div>
+
+    <!-- Task 4: Cards Container -->
+    <div id="cardsContainer" class="hidden cards-container flex items-start gap-2 w-full overflow-x-auto">
+        <div class="Onecity flex-shrink-0">
+            <h4 class="text-customPurple underline mb-2">Departure City</h4>
+            <div class="card fixed-card border border-gray-300 rounded-lg shadow-md overflow-hidden w-48 fixed-height">
+                <img src="img/delhi.jpeg" alt="Departure City Image" class="w-full h-48 object-cover">
+                <div class="container p-2">
+                    <h4 class="text-customPurple underline">Departure City</h4>
+                </div>
+            </div>
+        </div>
+        <div id="dynamicCards" class="dynamic-cards flex gap-2"></div>
+        <div class="Onecity flex-shrink-0">
+            <h4 class="text-customPurple underline mb-2">Arrival City</h4>
+            <div class="card fixed-card border border-gray-300 rounded-lg shadow-md overflow-hidden w-48 fixed-height">
+                <img src="img/delhi.jpeg" alt="Arrival City Image" class="w-full h-48 object-cover">
+                <div class="container p-2">
+                    <h4 class="text-customPurple underline">Arrival City</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        const lockedStates = {};
+        const nightsCount = {}; // Add this line to keep track of nights count for each city
+        const cityData = {
+            Mumbai: {
+                image: 'img/mumbai.jpeg',
+                info: 'Mumbai is the financial capital of India.',
+                airports: ['Chhatrapati Shivaji Maharaj International Airport', 'Juhu Aerodrome']
+            },
+            Delhi: {
+                image: 'img/delhi.jpeg',
+                info: 'Delhi is the capital city of India.',
+                airports: ['Indira Gandhi International Airport', 'Safdarjung Airport']
+            },
+            Bangalore: {
+                image: 'img/bangalore.jpeg',
+                info: 'Bangalore is known as the Silicon Valley of India.',
+                airports: ['Kempegowda International Airport', 'HAL Airport']
+            },
+            Chennai: {
+                image: 'img/chennai.jpeg',
+                info: 'Chennai is known for its cultural heritage.',
+                airports: ['Chennai International Airport', 'Madras Airport']
+            }
+        };
+
+        document.getElementById('input1').addEventListener('change', function() {
+            const selectedCity = this.value;
+            if (selectedCity !== '0') {
+                addCityCard(selectedCity);
+                showCardsContainer();
+            }
+        });
+
+        document.getElementById('input4').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                const enteredCities = this.value.split(',');
+                enteredCities.forEach(city => {
+                    const trimmedCity = city.trim();
+                    if (trimmedCity && cityData[trimmedCity]) {
+                        addCityCard(trimmedCity);
+                        showCardsContainer();
+                    }
+                });
+                this.value = ''; // Clear the input field after adding cards
+            }
+        });
+
+        function showCardsContainer() {
+            document.getElementById('empty-state').classList.add('hidden');
+            document.getElementById('cardsContainer').classList.remove('hidden');
+        }
+
+        function addCityCard(selectedCity) {
+            const dynamicCards = document.getElementById('dynamicCards');
+
+            // Create a container for each city card
+            const cityContainer = document.createElement('div');
+            cityContainer.className = 'city-container flex-shrink-0 card';
+            cityContainer.setAttribute('draggable', true);
+
+            // Create a container for the city heading and lock icon
+            const headingContainer = document.createElement('div');
+            headingContainer.className = 'heading-container flex items-center space-x-2 mb-2';
+
+            // Create a heading for the city
+            const cityHeading = document.createElement('h4');
+            cityHeading.textContent = selectedCity;
+            cityHeading.className = 'text-customPurple underline';
+            headingContainer.appendChild(cityHeading);
+
+            // Create a lock icon
+            const lockIcon = document.createElement('i');
+            lockIcon.className = 'fas fa-lock';
+            lockIcon.setAttribute('data-city', selectedCity);
+            lockIcon.onclick = function() {
+                toggleLock(selectedCity);
+            };
+            headingContainer.appendChild(lockIcon);
+
+            // Append the heading container to the city container
+            cityContainer.appendChild(headingContainer);
+
+            // Create the city card
+            const cityCard = document.createElement('div');
+            cityCard.className = 'card border border-gray-300 rounded-lg shadow-md overflow-hidden w-48 fixed-height';
+
+            const city = cityData[selectedCity];
+
+            cityCard.innerHTML = `
+                <img src="${city.image}" alt="${selectedCity} Image" class="w-full h-22 object-cover">
+                <div class="container">
+                    <h4 class="text-customPurple underline font-bold">${selectedCity}</h4>
+                    <p class="text-customPurple">${city.info}</p>
+                    <ul class="text-customPurple list-disc pl-5">
+                        ${city.airports.map(airport => `<li class="mb-1">${airport}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+            cityContainer.addEventListener('dblclick', () => {
+                cityContainer.classList.toggle('locked');
+                cityContainer.setAttribute('draggable', !cityContainer.classList.contains('locked'));
+            });
+
+            dynamicCards.appendChild(cityContainer);
+
+            addDragAndDropListeners(cityContainer);
+
+            // Append the city card to the city container
+            cityContainer.appendChild(cityCard);
+
+            // Initialize nights container
+            const nightsContainer = document.createElement('div');
+            nightsContainer.className = 'nights-container flex items-center mt-4 bg-customPurple';
+            nightsContainer.style.color = 'white';
+
+            const minusButton = document.createElement('button');
+            minusButton.textContent = '-';
+            minusButton.className = 'bg-customOrange px-2 py-1 rounded';
+            minusButton.onclick = function() {
+                changeNights(selectedCity, -1);
+            };
+
+            const nightsText = document.createElement('span');
+            nightsText.id = `nights-${selectedCity}`;
+            nightsText.className = 'mx-12';
+            nightsText.textContent = '0 nights';
+
+            const plusButton = document.createElement('button');
+            plusButton.textContent = '+';
+            plusButton.className = 'px-2 py-1 rounded bg-customOrange';
+            plusButton.onclick = function() {
+                changeNights(selectedCity, 1);
+            };
+
+            nightsContainer.appendChild(minusButton);
+            nightsContainer.appendChild(nightsText);
+            nightsContainer.appendChild(plusButton);
+
+            // Append the nights container to the city container
+            cityContainer.appendChild(nightsContainer);
+
+            // Append the city container to the dynamic cards container
+            dynamicCards.appendChild(cityContainer);
+
+            // Initialize the lock state and nights count for this city
+            lockedStates[selectedCity] = false;
+            nightsCount[selectedCity] = 0;
+        }
+
+        function toggleLock(city) {
+            lockedStates[city] = !lockedStates[city];
+            const lockIcon = document.querySelector(`i[data-city="${city}"]`);
+            lockIcon.className = lockedStates[city] ? 'fas fa-lock-open' : 'fas fa-lock';
+        }
+
+        function changeNights(city, change) {
+            nightsCount[city] += change;
+            if (nightsCount[city] < 0) nightsCount[city] = 0;
+            document.getElementById(`nights-${city}`).textContent = `${nightsCount[city]} nights`;
+        }
+
+        function addDragAndDropListeners(element) {
+            element.addEventListener('dragstart', dragStart);
+            element.addEventListener('dragover', dragOver);
+            element.addEventListener('drop', drop);
+        }
+
+        function dragStart(event) {
+            event.dataTransfer.setData('text/plain', event.target.id);
+        }
+
+        function dragOver(event) {
+            event.preventDefault();
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const id = event.dataTransfer.getData('text');
+            const draggableElement = document.getElementById(id);
+            const dropzone = event.target.closest('.dynamic-cards');
+            dropzone.appendChild(draggableElement);
+        }
+    </script>
+</body>
+</html>

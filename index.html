@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+    .container {
+        display: flex;
+        height: 100vh; 
+        
+    }
+    .left-column {
+        width: 40%;
+        /* background-color: #f0f0f0; */
+        padding: 20px;
+        
+        
+    }
+    .right-column {
+        width: 90%;
+        background-color: #e0e0e0;
+        padding: 20px;
+        
+    }
+</style>
+</head>
+<body >
+    <div class="container">
+        <div class="left-column">
+
+            <div class="mb-4">
+            <div class="heading">
+                <h2 class="text-red-500 underline text-center font-bold">Holiday Details</h2>
+            </div>
+            </div>
+            
+            <div class="mb-4">
+            <div class="flex items-center justify-between bg-customPurple p-4 rounded-md w-96">
+                <label for="input1" class="text-white mr-4 text-sm underline">Departure Date></label>
+                <input type="text" id="input1" name="input1" class="bg-white text-black rounded-md px-2 py-1">
+            </div>
+            </div>
+            
+            <div class="mb-4">
+            <div class="flex items-center justify-between bg-customPurple p-4 rounded-md w-96">
+                <label for="input1" class="text-white mr-4 text-sm underline">Add Travellers></label>
+                <input type="text" id="input1" name="input1" class="bg-white text-black rounded-md px-2 py-1">
+            </div>
+            </div>
+            
+            <div class="mb-4">
+            <div class="flex items-center justify-between bg-indigo-800 p-4 rounded-md w-96">
+                <label for="input1" class="text-white mr-4 text-sm underline">Traveller Type></label>
+                <input type="text" id="input1" name="input1" class="bg-white text-black rounded-md px-2 py-1">
+            </div>
+            </div>
+            
+            <div class="mb-4">
+            <div class="flex items-center justify-between bg-indigo-800 p-4 rounded-md w-96">
+                <label for="input1" class="text-white mr-4 text-sm underline">Route Type></label>
+                <input type="text" id="input1" name="input1" class="bg-white text-black rounded-md px-2 py-1">
+            </div>
+            </div>
+       
+        </div>
+        
+        <div class="right-column">
+
+                <div class="mb-4">
+                <nav>
+                    <a href="#home">Home / Itinerary</a>
+                </nav>
+                </div>
+         
+                <div class="mb-4 text-center font-bold">
+                   <h2 class="text-red-500 underline">Make Your Own Holiday!</h2>
+                </div>
+                
+                <div class="mb-4">
+                
+                <div class="mb-4">
+                <div class="flex items-center justify-between bg-indigo-800 p-4 rounded-md w-96">
+                <label for="input1"class="text-white mr-4 text-sm underline">Departure City ></label>
+                <input type="text" id="input1" name="input1" class="bg-white text-black rounded-md px-2 py-1">
+                </div>
+                </div>
+
+
+                <div class="mb-4">
+                <div class="flex items-center justify-between bg-indigo-800 p-4 rounded-md w-96">
+                <!-- <label for="input1" class="text-white mr-4">Route Type:</label> -->
+                <input type="text" id="input1" name="input1" class="bg-white text-black rounded-md px-2 py-1">
+                </div>
+
+         </div>  
+                </div>
+
+                <div id="empty-state" class="flex justify-center items-center h-64">
+                    <img src="path/to/empty-bin-image.png" alt="Empty bin" class="w-10 h-10">
+                  </div>
+              
+         
+        
+         <div class="searchcities">
+            <div class="div1">
+                <div>
+                    <label for="Startdate">Start Date</label>
+                    <input type="text" placeholder="Select Start Date">
+                </div>
+                <div>
+                    <input type="text" placeholder="Search the cities here">
+
+                </div>
+                <div>
+                    <h2>Total Travel Days:</h2>
+
+                </div>
+                <hr>
+            </div>
+            <div class="div2">
+        <div> </div>
+            </div>
+        
+        </div>
+
+
+    </div>    
+
+
+
+
+</body>
+</html>
+

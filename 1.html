@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .city-selection {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .city-info-wrapper {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .city-info {
+            width: 250px; /* Fixed width to ensure all cities have the same size */
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .city-info h2 {
+            margin-top: 0;
+        }
+
+        .city-info img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>City Information</h1>
+    <div class="container">
+        <div class="city-selection">
+            <label for="city-dropdown">Select a city:</label>
+            <select id="city-dropdown">
+                <option value="">Select a city...</option>
+            </select>
+            <br><br>
+            <label for="city-search">Search city:</label>
+            <input type="text" id="city-search" list="city-list" placeholder="Search city...">
+            <datalist id="city-list">
+                <!-- Options will be dynamically populated by JavaScript -->
+            </datalist>
+        </div>
+        
+        <div class="city-info-wrapper">
+            <div class="city-info" id="arrival-city-info">
+                <h2>Arrival City Information</h2>
+                <div id="arrival-city-image"></div>
+                <p id="arrival-city-description"></p>
+                <ul id="arrival-city-airports"></ul>
+            </div>
+
+            <div id="dynamic-cities-container" class="city-info-wrapper">
+                <!-- Dynamic cities will be added here -->
+            </div>
+
+            <div class="city-info" id="destination-city-info">
+                <h2>Destination City Information</h2>
+                <div id="destination-city-image"></div>
+                <p id="destination-city-description"></p>
+                <ul id="destination-city-airports"></ul>
+            </div>
+        </div>
+    </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Reference to HTML elements
+    const cityDropdown = document.getElementById('city-dropdown');
+    const citySearch = document.getElementById('city-search');
+    const cityList = document.getElementById('city-list');
+    const arrivalCityInfo = document.getElementById('arrival-city-info');
+    const destinationCityInfo = document.getElementById('destination-city-info');
+    const dynamicCitiesContainer = document.getElementById('dynamic-cities-container');
+
+    // City data object
+    const cityData = {
+        Mumbai: {
+            image: 'img/mumbai.jpeg',
+            info: 'Mumbai is the financial capital of India.',
+            airports: ['Chhatrapati Shivaji Maharaj International Airport', 'Juhu Aerodrome']
+        },
+        Delhi: {
+            image: 'img/delhi.jpeg',
+            info: 'Delhi is the capital city of India.',
+            airports: ['Indira Gandhi International Airport', 'Safdarjung Airport']
+        },
+        Bangalore: {
+            image: 'img/bangalore.jpeg',
+            info: 'Bangalore is known as the Silicon Valley of India.',
+            airports: ['Kempegowda International Airport', 'HAL Airport']
+        },
+        Chennai: {
+            image: 'img/chennai.jpeg',
+            info: 'Chennai is known for its cultural heritage.',
+            airports: ['Chennai International Airport', 'Madras Airport']
+        }
+    };
+
+    // Populate dropdown with city names
+    for (const city in cityData) {
+        let option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        cityDropdown.appendChild(option);
+
+        // Populate datalist with city names for autocomplete
+        let datalistOption = document.createElement('option');
+        datalistOption.value = city;
+        cityList.appendChild(datalistOption);
+    }
+
+    // Function to update city information
+    function updateCityInformation(city, cityInfoElem) {
+        if (city) {
+            // Update city information
+            cityInfoElem.innerHTML = `
+                <h2>${city} City Information</h2>
+                <div><img src="${cityData[city].image}" alt="${city}"></div>
+                <p>${cityData[city].info}</p>
+                <ul>${cityData[city].airports.map(airport => `<li>${airport}</li>`).join('')}</ul>
+            `;
+        } else {
+            // Clear city information if no city is selected
+            cityInfoElem.innerHTML = '';
+        }
+    }
+
+    // Event listener for dropdown change
+    cityDropdown.addEventListener('change', function() {
+        const selectedCity = this.value;
+
+        // Update arrival city information
+        updateCityInformation(selectedCity, arrivalCityInfo);
+
+        // Update destination city information (assuming same functionality as arrival city)
+        updateCityInformation(selectedCity, destinationCityInfo);
+
+        // Clear dynamic cities
+        dynamicCitiesContainer.innerHTML = '';
+    });
+
+    // Event listener for search input
+    citySearch.addEventListener('input', function() {
+        const searchText = this.value.toLowerCase();
+        const matchedCities = Object.keys(cityData).filter(city => city.toLowerCase().includes(searchText));
+
+        // Clear previous results
+        cityList.innerHTML = '';
+
+        // Populate datalist with matched cities for autocomplete
+        matchedCities.forEach(city => {
+            let datalistOption = document.createElement('option');
+            datalistOption.value = city;
+            cityList.appendChild(datalistOption);
+        });
+    });
+
+    // Function to add dynamic city
+    function addDynamicCity(city) {
+        // Check if the city already exists in the dynamic container
+        const existingCity = Array.from(dynamicCitiesContainer.children).find(child => child.dataset.city === city);
+        if (existingCity) return;
+
+        // Create a new city info section for the selected city
+        const newCityInfo = document.createElement('div');
+        newCityInfo.classList.add('city-info');
+        newCityInfo.dataset.city = city;
+
+        // Update new city information
+        updateCityInformation(city, newCityInfo);
+
+        // Add the new city info section to the dynamic cities container
+        dynamicCitiesContainer.appendChild(newCityInfo);
+    }
+
+    // Event listener for selecting from datalist
+    citySearch.addEventListener('change', function(event) {
+        const selectedCity = this.value;
+        if (!selectedCity || !cityData[selectedCity]) return;
+        
+        // Add the new city info section to the dynamic cities container
+        addDynamicCity(selectedCity);
+
+        // Clear the search input after selection
+        this.value = '';
+    });
+
+    // Event listener for when the city suggestion is selected
+    citySearch.addEventListener('input', function() {
+        const selectedCity = this.value;
+        const matchedCities = Object.keys(cityData).filter(city => city.toLowerCase().includes(selectedCity.toLowerCase()));
+
+        if (matchedCities.length === 1 && matchedCities[0].toLowerCase() === selectedCity.toLowerCase()) {
+            addDynamicCity(matchedCities[0]);
+            this.value = '';
+        }
+    });
+});
+</script>
+</body>
+</html>
